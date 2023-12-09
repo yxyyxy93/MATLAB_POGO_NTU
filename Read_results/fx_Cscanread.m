@@ -1,0 +1,104 @@
+function fx_Cscanread(dir_path)
+%%
+folderandsub = genpath('/home/xiaoyu/pogo_work/utlis_pogo_xiaoyu');
+addpath(folderandsub);
+
+% Set your file extension here
+file_ext = '.pogo-hist';
+
+dir_path = strcat(dir_path, '/');
+% Get a list of all files in the directory with the desired file extension
+files = dir(strcat(dir_path, '*', file_ext));
+
+disp(dir_path);
+display(files);
+
+filenames   = {files.name};
+sorted_file = natsortfiles(filenames);
+
+Ascans_re = nan(length(files), 10000);
+Ascans_im = nan(length(files), 10000);
+
+% delays = load('focusing_delays.txt');
+% Loop over all files
+for i = 1: length(sorted_file)
+    % Display the file name
+    fprintf('Working on file: %s\n', sorted_file{i});
+    h      = loadPogoHist(strcat(dir_path, sorted_file{i}));
+    % ascans = h.sets.main.histTraces(:, 3:3:end); % full xyz record
+    ascans = h.sets.main.histTraces; % only z record
+    % % ************* add delay
+    % if length(delays) ~= size(ascans, 2)
+    %     error('delays not correct')
+    % end
+    % for si = 1:length(delays)
+    %     ascans(:, si) = circshift(ascans(:, si), -round(delays(si)));
+    % end
+    % ********************
+    ascan  = mean(ascans, 2);
+    Ascans_re(i, 1:length(ascan)) = ascan;
+    Ascans_im(i, 1:length(ascan)) = imag(hilbert(ascan));
+    % 
+end
+
+dt = h.dt;
+fs = 1/dt;
+
+Ascans_re(:, length(ascan)+1:end) = [];
+% Ascans_im(:, length(ascan)+1:end) = [];
+
+% in case of bug 
+% save Ascans_re;
+save(strcat(dir_path, "Ascans.mat"), "Ascans_re");
+
+% delete after saving
+for i = 1: length(sorted_file)
+    delete(strcat(dir_path, sorted_file{i}));
+end
+
+%%
+% Ascans_inam = (Ascans_re.^2 + Ascans_im.^2).^1/2;
+% % in case there are extra lines
+% Ascans_inam = Ascans_inam(2:end-1, :);
+
+% downsample
+Ascans_im_ds = Ascans_re(:, 1:int32(fs/2000e6):end);
+
+%% save with low occupation
+row = 21;
+col = size(Ascans_im_ds, 1) / row;
+img_pre = reshape(Ascans_im_ds, [row, col, size(Ascans_im_ds, 2)]);
+
+% Get the current date
+% Convert to a string in the desired format
+dateString = datestr(datetime('now'), 'yyyymmdd');
+
+% Save size as the first line, then the flattened 3D array
+file_name = strcat(dir_path, '_10m', '_', dateString, '.csv');
+[x, y, z] = size(img_pre);
+
+% Open the file for writing
+fileID = fopen(file_name, 'w');
+% Write the dimensions as a header
+fprintf(fileID, '%d,%d,%d\n', x, y, z);
+% Iterate through the slices and save them
+for i = 1:x
+    for j = 1:y
+        for k = 1:z
+            fprintf(fileID, '%.17f', img_pre(i,j,k)); % Writing each element
+            if k < z
+                fprintf(fileID, ','); % Separate elements by commas within the same slice
+            end
+        end
+        if j < y
+            fprintf(fileID, '\n'); % Newline at the end of each row within a slice
+        end
+    end
+    if i < x
+        fprintf(fileID, '\n'); % Extra newline between slices
+    end
+end
+
+fclose(fileID);
+
+end

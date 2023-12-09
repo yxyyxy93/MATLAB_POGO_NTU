@@ -1,0 +1,58 @@
+{
+  "version": 1.0,
+  "background": [ ],
+  "camera": { },
+  "centerOfRotation": { },
+  "scene": [ ],
+  "lookupTables": { },
+  "animation": {
+    "type": "vtkTimeStepBasedAnimationHandler",
+    "timeSteps": [
+      {
+        "time": 9.99500e-07
+      },
+      {
+        "time": 2.99950e-06
+      },
+      {
+        "time": 4.99950e-06
+      },
+      {
+        "time": 6.99950e-06
+      },
+      {
+        "time": 8.99950e-06
+      },
+      {
+        "time": 1.09995e-05
+      },
+      {
+        "time": 1.29995e-05
+      },
+      {
+        "time": 1.49995e-05
+      },
+      {
+        "time": 1.69995e-05
+      },
+      {
+        "time": 1.89995e-05
+      },
+      {
+        "time": 2.09995e-05
+      },
+      {
+        "time": 2.29995e-05
+      },
+      {
+        "time": 2.49995e-05
+      },
+      {
+        "time": 2.69995e-05
+      },
+      {
+        "time": 2.89995e-05
+      }
+    ]
+  }
+}
