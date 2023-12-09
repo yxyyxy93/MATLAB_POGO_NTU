@@ -4,6 +4,7 @@
 *.pogo-inp
 *.pogo-hist
 *.pogo-field
+*.pogo-block
 *.mp4
 *.zip
 *.dat
