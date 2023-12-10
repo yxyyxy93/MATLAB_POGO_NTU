@@ -1,14 +1,7 @@
-function fx_immersion_Cscan(currentFileFolder, model_path)
-
-folderandsub = genpath('/home/xiaoyu/pogo_work/utlis_pogo_xiaoyu');
-addpath(folderandsub);
+function fx_immersion_Cscan(currentFileFolder, model_path, nx, ny, dx, dy, chunk_size)
 % open the centers file
 % centers = dlmread('centers_array.txt');
 
-nx = 20;
-ny = 20;
-dx = 0.25e-3;
-dy = 0.25e-3;
 centers = fx_defineloc(dx, dy, nx, ny);
 centers = int32(reshape(centers, (nx+1)*(ny+1), 3)*1e6);
 
@@ -17,13 +10,10 @@ centers = int32(reshape(centers, (nx+1)*(ny+1), 3)*1e6);
 model_base = load(model_path);
 % model_base = load([currentFileFolder '/base_model_4d_onlyorient_8l.mat']);
 
-timestep  = model_base.timestep;
 model1    = model_base.model1;
-tb_signal = model_base.tb_signal;
 dz        = model_base.dz;
 
-fd       = 25.6e-3 / 10; % m
-diameter = 12.7e-3 / 10;
+diameter = model_base.diameter;
 
 z_loc    = min(model1.nodePos(3, :));
 
@@ -31,8 +21,6 @@ center_ori = int32([    ...
     mean(model1.nodePos(1, :)) ...
     mean(model1.nodePos(2, :)) ...
     z_loc]*1e6);
-
-cWater = 1500;
 
 %%
 tic;
@@ -64,18 +52,12 @@ for step = 1:length(centers)
     center_list(step, :) = center_ori + centers(step, :);
 end
 
-% scatter3(center_list(:, 1), center_list(:, 2), center_list(:, 3));
-% hold on;
-% scatter3([min(X) min(X) max(X) max(X)], [min(Y) max(Y) min(Y) max(Y)], center_list(1:4, 3));
+scatter3(center_list(:, 1), center_list(:, 2), center_list(:, 3));
+hold on;
+scatter3([min(X) min(X) max(X) max(X)], [min(Y) max(Y) min(Y) max(Y)], center_list(1:4, 3));
 
 disp(min(center_list(:,1)) - min(X));
 disp(min(center_list(:,2)) - min(Y));
-
-
-model1.prec    = 8;        % Precision
-model1.runName = 'Job';
-model1.nt      = 8e3;
-model1.dt      = timestep;
 
 %% switch to the the scanning point
 clc;
@@ -127,16 +109,12 @@ for step = 1:length(centers)
         mDel.nodePos(3, :) == center(3) & ...
         dis_to_center <= (diameter/2).^2);
 
-    [focused_waves, ~] = fx_focused_wave(fd, center, timestep, ...
-        mDel.nodePos(1:3, node_index_generator), cWater, tb_signal(:,2));
-
-    for i = 1: size(focused_waves, 1)
-        mDel.shots{1, 1}.sigs{i, 1}.nodeSpec   = node_index_generator(i)';
-        mDel.shots{1, 1}.sigs{i, 1}.sig        = focused_waves(i, :)';
+    for i = 1: length(node_index_generator)
         mDel.shots{1, 1}.sigs{i, 1}.sigType    = 1; % 0 - force, 1 - displacement
         mDel.shots{1, 1}.sigs{i, 1}.isDofGroup = 0;
         mDel.shots{1, 1}.sigs{i, 1}.dofSpec    = 3;
-        mDel.shots{1, 1}.sigs{i, 1}.sigAmps    = 1e-13;
+        mDel.shots{1, 1}.sigs{i, 1}.sigAmps    = ones(length(mDel.shots{1}.sigs{i}.dofSpec), 1)*1e-13;
+        mDel.shots{1, 1}.sigs{i, 1}.nodeSpec   = node_index_generator(i)';
     end
     % Receiver
     % node_index_receiver = node_index_generator;
@@ -152,7 +130,7 @@ for step = 1:length(centers)
     mDel.measSets{1, 1}.name       = 'main';
     mDel.measSets{1, 1}.isDofGroup = 0;
     mDel.measFreq  = 1;
-    mDel.measStart = 4e3;
+    mDel.measStart = 3.5e3;
 
     mDel.measSets{1, 1}.measDof   = 3 * ones(length(node_index_receiver),1);
     mDel.measSets{1, 1}.measNodes = node_index_receiver;
@@ -178,13 +156,12 @@ for step = 1:length(centers)
 
     % % remove anisotropic boundary
     % sides
-    freq     = 10e6;
     nAbsVals = 60;
     abs_size = 2e-4;
     xLims    = [ ];
     ylims    = [ ];
     zLims    = [-102 -100 z_max-abs_size z_max];
-    mDel     = addAbsBound(mDel, xLims, ylims, zLims, nAbsVals, [], [], freq);
+    mDel     = addAbsBound(mDel, xLims, ylims, zLims, nAbsVals, [], [], []);
 
     % % plot the elsets with the model basic dataset
     % flag_plotelem = 1;
