@@ -17,12 +17,6 @@ modelpath="${lastFolderPath}/${currentFolder}.mat"
 echo "Current path: $currentPath"
 echo "model Path: $modelpath"
 
-nx=20;
-ny=20;
-dx=0.2e-3;
-dy=0.2e-3;
-chunk_size=700;
-
 # Run the MATLAB script with the paths as an argument
 # First change to the directory containing the MATLAB script, then execute the script
-matlab -batch "addpath(genpath('/home/xiaoyu/pogo_work/utlis_pogo_xiaoyu')); fx_immersion_Cscan('$currentPath', '$modelpath', $nx, $ny, $dx, $dy, $chunk_size)"
+matlab -batch "addpath('/home/xiaoyu/pogo_work/utlis_pogo_xiaoyu/'); fx_immersion_Cscan('$currentPath', '$modelpath')"

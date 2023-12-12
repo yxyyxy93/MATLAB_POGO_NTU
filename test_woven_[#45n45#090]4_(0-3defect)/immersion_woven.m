@@ -81,7 +81,7 @@ numX    = diff_data_node_pos(1)/mesh_size;
 numY    = diff_data_node_pos(2)/mesh_size;
 numZ    = diff_data_node_pos(3)/mesh_size;
 
-for seed = 1:4
+for seed = 5:8
     rng(seed);
     % Generate a random integer number between 0 and 3
     num_defects = randi([0, 3], 1, 1);

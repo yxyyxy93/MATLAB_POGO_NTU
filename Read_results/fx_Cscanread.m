@@ -1,8 +1,5 @@
 function fx_Cscanread(dir_path)
 %%
-folderandsub = genpath('/home/xiaoyu/pogo_work/utlis_pogo_xiaoyu');
-addpath(folderandsub);
-
 % Set your file extension here
 file_ext = '.pogo-hist';
 
@@ -19,7 +16,7 @@ sorted_file = natsortfiles(filenames);
 Ascans_re = nan(length(files), 10000);
 Ascans_im = nan(length(files), 10000);
 
-% delays = load('focusing_delays.txt');
+delays = load(strcat(dir_path, 'focusing_delays.txt'));
 % Loop over all files
 for i = 1: length(sorted_file)
     % Display the file name
@@ -28,12 +25,12 @@ for i = 1: length(sorted_file)
     % ascans = h.sets.main.histTraces(:, 3:3:end); % full xyz record
     ascans = h.sets.main.histTraces; % only z record
     % % ************* add delay
-    % if length(delays) ~= size(ascans, 2)
-    %     error('delays not correct')
-    % end
-    % for si = 1:length(delays)
-    %     ascans(:, si) = circshift(ascans(:, si), -round(delays(si)));
-    % end
+    if length(delays) ~= size(ascans, 2)
+        error('delays not correct')
+    end
+    for si = 1:length(delays)
+        ascans(:, si) = circshift(ascans(:, si), -round(delays(si))); % 20231211, I compared 3 cases (no dealy, -delay, +delay), -delay show best resutls
+    end
     % ********************
     ascan  = mean(ascans, 2);
     Ascans_re(i, 1:length(ascan)) = ascan;

@@ -12,17 +12,17 @@ copy_script_to_folder() {
 MASTER_SCRIPT_PATH="create_Cscan.sh"
 
 # Starting and ending seeds
-START_SEED=1
-END_SEED=1
+START_SEED=7
+END_SEED=7
 
 # Loop over the seed range
 for (( SEED=$START_SEED; SEED<=$END_SEED; SEED+=4 )); do
     # Construct the TARGET_FOLDERS array
     TARGET_FOLDERS=(
         "base_model_shiftseed_$SEED"
-        "base_model_shiftseed_$(($SEED+1))"
-        "base_model_shiftseed_$(($SEED+2))"
-        "base_model_shiftseed_$(($SEED+3))"
+        #"base_model_shiftseed_$(($SEED+1))"
+        #"base_model_shiftseed_$(($SEED+2))"
+        #"base_model_shiftseed_$(($SEED+3))"
     )
 
     # Export the array if needed by your .sh script
@@ -36,6 +36,7 @@ for (( SEED=$START_SEED; SEED<=$END_SEED; SEED+=4 )); do
             mkdir "$folder"
         fi
         copy_script_to_folder "$MASTER_SCRIPT_PATH" "$folder"
+		copy_script_to_folder "focusing_delays.txt" "$folder"
     done
 
     # Run the scripts in each folder

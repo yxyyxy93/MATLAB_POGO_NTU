@@ -18,17 +18,17 @@ copy_script_to_folder() {
 MASTER_SCRIPT_PATH="run_woven_8l_test.sh"
 
 # Starting and ending seeds
-START_SEED=1
-END_SEED=17
+START_SEED=6
+END_SEED=6
 
 # Loop over the seed range
 for (( SEED=$START_SEED; SEED<=$END_SEED; SEED+=4 )); do
     # Construct the TARGET_FOLDERS array
     TARGET_FOLDERS=(
         "base_model_shiftseed_$SEED"
-        "base_model_shiftseed_$(($SEED+1))"
-        "base_model_shiftseed_$(($SEED+2))"
-        "base_model_shiftseed_$(($SEED+3))"
+        #"base_model_shiftseed_$(($SEED+1))"
+        #"base_model_shiftseed_$(($SEED+2))"
+        #"base_model_shiftseed_$(($SEED+3))"
     )
 
     # Copy the master script to each target folder

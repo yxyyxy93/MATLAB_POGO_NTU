@@ -62,7 +62,6 @@ disp(min(center_list(:,2)) - min(Y));
 %% switch to the the scanning point
 clc;
 
-chunk_size = 750;
 % all unifieid to unit of um
 
 for step = 1:length(centers)
@@ -298,7 +297,21 @@ for i = 1:x
         fprintf(fileID, '\n'); % Extra newline between slices
     end
 end
+fclose(fileID);
 
+%% save the ultrasound configuration
+% Full path for the file
+filePath = fullfile(currentFileFolder, 'parameters.txt');
+fileID = fopen(filePath, 'w');
+% Check if the file was opened successfully
+if fileID == -1
+    error('File could not be opened');
+end
+% Write the parameters to the file
+fprintf(fileID, 'frequency: %f\n', model_base.frequency);
+fprintf(fileID, 'fd: %f\n', model_base.fd);
+fprintf(fileID, 'diameter: %f\n', model_base.diameter);
+% Close the file
 fclose(fileID);
 
 delete(model_path);
