@@ -6,7 +6,6 @@ DIR=$(dirname "$(realpath "$0")")
 # ************* create the scanning grid
 nx=20
 ny=20
-
 pogoBlockGreedy3d woven_test_0901.pogo-inp;
 
 # ************* create the base model
@@ -14,10 +13,8 @@ for ((step=1; step<=(nx+1)*(ny+1); step++))
 # for step in "${array[@]}"
 do
 	export step;
- 
 	# pogoBlockGreedy3d woven_test_090${step}.pogo-inp;
-    	
-    	# Find the file
+	# Find the file
 	filename=$(find . -name '*.pogo-block' -print -quit)
 	# Check if file was found
 	if [ ! -z "$filename" ]; then
@@ -29,25 +26,22 @@ do
 	else
     		echo "No .pogo-block file found."
 	fi
-	#
 	# if (step==150); then
 	# 	pogoSolve3d woven_test_090${step}.pogo-inp --setOutputFile "woven_test_${step}" <<< o;
 	# else 
-	
 	pogoSolve3d woven_test_090${step}.pogo-inp --setFieldSaveOff --setOutputFile "woven_test_${step}" <<< o;
 	# fi
-    	rm woven_test_090${step}.pogo-inp;
+    rm woven_test_090${step}.pogo-inp;
 done
 
+rm woven_test_090${step}.pogo-block
 
 # Define the full path to the directory containing the MATLAB script
 matlabScriptDir="/home/xiaoyu/pogo_work/Read_results"
-
 # Get the current directory of the Bash script
 currentPath=$(pwd)
-
 # Run the MATLAB script with the current path as an argument
 # First change to the directory containing the MATLAB script, then execute the script
-matlab -batch "cd('$matlabScriptDir'); fx_Cscanread('$currentPath')"
+matlab -batch "addpath(genpath('/home/xiaoyu/pogo_work/utlis_pogo_xiaoyu')); cd('$matlabScriptDir'); fx_Cscanread('$currentPath')"
 
 
