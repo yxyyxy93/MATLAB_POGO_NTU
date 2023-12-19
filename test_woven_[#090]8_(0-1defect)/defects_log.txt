@@ -1,0 +1,254 @@
+Set Name: shiftseed_1
+Num Defects: 0
+Set Name: shiftseed_2
+Num Defects: 0
+Set Name: shiftseed_3
+Num Defects: 1
+Defect 1: X = 0.003294, Y = 0.001796, Radius = 0.001330, Depth = 0.000420, Thickness = 0.000017
+Set Name: shiftseed_4
+Num Defects: 1
+Defect 1: X = 0.002433, Y = 0.000721, Radius = 0.002413, Depth = 0.000840, Thickness = 0.000019
+Set Name: shiftseed_5
+Num Defects: 0
+Set Name: shiftseed_6
+Num Defects: 1
+Defect 1: X = 0.002566, Y = 0.004881, Radius = 0.002148, Depth = 0.000210, Thickness = 0.000017
+Set Name: shiftseed_7
+Num Defects: 0
+Set Name: shiftseed_8
+Num Defects: 1
+Defect 1: X = 0.005369, Y = 0.002169, Radius = 0.000938, Depth = 0.000210, Thickness = 0.000020
+Set Name: shiftseed_9
+Num Defects: 0
+Set Name: shiftseed_10
+Num Defects: 1
+Defect 1: X = 0.001959, Y = 0.005089, Radius = 0.001929, Depth = 0.000840, Thickness = 0.000011
+Set Name: shiftseed_11
+Num Defects: 0
+Set Name: shiftseed_12
+Num Defects: 0
+Set Name: shiftseed_13
+Num Defects: 1
+Defect 1: X = 0.002238, Y = 0.000547, Radius = 0.001217, Depth = 0.001470, Thickness = 0.000012
+Set Name: shiftseed_14
+Num Defects: 1
+Defect 1: X = 0.002371, Y = 0.004262, Radius = 0.002026, Depth = 0.001470, Thickness = 0.000011
+Set Name: shiftseed_15
+Num Defects: 1
+Defect 1: X = 0.000734, Y = 0.000697, Radius = 0.000900, Depth = 0.001470, Thickness = 0.000014
+Set Name: shiftseed_16
+Num Defects: 0
+Set Name: shiftseed_17
+Num Defects: 0
+Set Name: shiftseed_18
+Num Defects: 1
+Defect 1: X = 0.004808, Y = 0.001493, Radius = 0.001814, Depth = 0.001050, Thickness = 0.000014
+Set Name: shiftseed_19
+Num Defects: 0
+Set Name: shiftseed_20
+Num Defects: 1
+Defect 1: X = 0.004256, Y = 0.001696, Radius = 0.001010, Depth = 0.001470, Thickness = 0.000019
+Set Name: shiftseed_21
+Num Defects: 0
+Set Name: shiftseed_22
+Num Defects: 0
+Set Name: shiftseed_23
+Num Defects: 1
+Defect 1: X = 0.000825, Y = 0.001974, Radius = 0.001076, Depth = 0.001260, Thickness = 0.000016
+Set Name: shiftseed_24
+Num Defects: 1
+Defect 1: X = 0.003309, Y = 0.003213, Radius = 0.002287, Depth = 0.001260, Thickness = 0.000013
+Set Name: shiftseed_25
+Num Defects: 1
+Defect 1: X = 0.003996, Y = 0.002332, Radius = 0.002173, Depth = 0.000840, Thickness = 0.000015
+Set Name: shiftseed_26
+Num Defects: 0
+Set Name: shiftseed_27
+Num Defects: 0
+Set Name: shiftseed_28
+Num Defects: 1
+Defect 1: X = 0.001331, Y = 0.002477, Radius = 0.001521, Depth = 0.000630, Thickness = 0.000014
+Set Name: shiftseed_29
+Num Defects: 1
+Defect 1: X = 0.003922, Y = 0.004705, Radius = 0.002118, Depth = 0.000210, Thickness = 0.000019
+Set Name: shiftseed_30
+Num Defects: 1
+Defect 1: X = 0.005471, Y = 0.001676, Radius = 0.000978, Depth = 0.001050, Thickness = 0.000017
+Set Name: shiftseed_31
+Num Defects: 0
+Set Name: shiftseed_32
+Num Defects: 1
+Defect 1: X = 0.000750, Y = 0.003309, Radius = 0.002033, Depth = 0.001470, Thickness = 0.000011
+Set Name: shiftseed_33
+Num Defects: 0
+Set Name: shiftseed_34
+Num Defects: 0
+Set Name: shiftseed_35
+Num Defects: 0
+Set Name: shiftseed_36
+Num Defects: 1
+Defect 1: X = 0.002377, Y = 0.002764, Radius = 0.000992, Depth = 0.000840, Thickness = 0.000012
+Set Name: shiftseed_37
+Num Defects: 1
+Defect 1: X = 0.003367, Y = 0.004025, Radius = 0.002359, Depth = 0.000210, Thickness = 0.000011
+Set Name: shiftseed_38
+Num Defects: 0
+Set Name: shiftseed_39
+Num Defects: 1
+Defect 1: X = 0.001761, Y = 0.003462, Radius = 0.002221, Depth = 0.000210, Thickness = 0.000019
+Set Name: shiftseed_40
+Num Defects: 0
+Set Name: shiftseed_41
+Num Defects: 0
+Set Name: shiftseed_42
+Num Defects: 0
+Set Name: shiftseed_43
+Num Defects: 0
+Set Name: shiftseed_44
+Num Defects: 1
+Defect 1: X = 0.004909, Y = 0.003732, Radius = 0.000928, Depth = 0.001050, Thickness = 0.000011
+Set Name: shiftseed_45
+Num Defects: 1
+Defect 1: X = 0.003865, Y = 0.002703, Radius = 0.001079, Depth = 0.000840, Thickness = 0.000011
+Set Name: shiftseed_46
+Num Defects: 1
+Defect 1: X = 0.004511, Y = 0.002474, Radius = 0.001756, Depth = 0.000210, Thickness = 0.000013
+Set Name: shiftseed_47
+Num Defects: 0
+Set Name: shiftseed_48
+Num Defects: 0
+Set Name: shiftseed_49
+Num Defects: 0
+Set Name: shiftseed_50
+Num Defects: 0
+Set Name: shiftseed_51
+Num Defects: 1
+Defect 1: X = 0.001961, Y = 0.002727, Radius = 0.000621, Depth = 0.001260, Thickness = 0.000017
+Set Name: shiftseed_52
+Num Defects: 1
+Defect 1: X = 0.003910, Y = 0.002342, Radius = 0.002218, Depth = 0.000630, Thickness = 0.000011
+Set Name: shiftseed_53
+Num Defects: 1
+Defect 1: X = 0.001337, Y = 0.002536, Radius = 0.001805, Depth = 0.000840, Thickness = 0.000016
+Set Name: shiftseed_54
+Num Defects: 0
+Set Name: shiftseed_55
+Num Defects: 0
+Set Name: shiftseed_56
+Num Defects: 1
+Defect 1: X = 0.001827, Y = 0.002704, Radius = 0.002262, Depth = 0.001260, Thickness = 0.000017
+Set Name: shiftseed_57
+Num Defects: 0
+Set Name: shiftseed_58
+Num Defects: 0
+Set Name: shiftseed_59
+Num Defects: 1
+Defect 1: X = 0.002865, Y = 0.001069, Radius = 0.001072, Depth = 0.001260, Thickness = 0.000013
+Set Name: shiftseed_60
+Num Defects: 0
+Set Name: shiftseed_61
+Num Defects: 1
+Defect 1: X = 0.000909, Y = 0.000639, Radius = 0.001940, Depth = 0.001050, Thickness = 0.000010
+Set Name: shiftseed_62
+Num Defects: 0
+Set Name: shiftseed_63
+Num Defects: 1
+Defect 1: X = 0.000526, Y = 0.004873, Radius = 0.001656, Depth = 0.001470, Thickness = 0.000019
+Set Name: shiftseed_64
+Num Defects: 0
+Set Name: shiftseed_65
+Num Defects: 0
+Set Name: shiftseed_66
+Num Defects: 0
+Set Name: shiftseed_67
+Num Defects: 1
+Defect 1: X = 0.000556, Y = 0.002548, Radius = 0.001325, Depth = 0.000210, Thickness = 0.000020
+Set Name: shiftseed_68
+Num Defects: 0
+Set Name: shiftseed_69
+Num Defects: 0
+Set Name: shiftseed_70
+Num Defects: 1
+Defect 1: X = 0.001454, Y = 0.004175, Radius = 0.000752, Depth = 0.000630, Thickness = 0.000019
+Set Name: shiftseed_71
+Num Defects: 0
+Set Name: shiftseed_72
+Num Defects: 0
+Set Name: shiftseed_73
+Num Defects: 1
+Defect 1: X = 0.004882, Y = 0.005095, Radius = 0.000710, Depth = 0.001470, Thickness = 0.000010
+Set Name: shiftseed_74
+Num Defects: 0
+Set Name: shiftseed_75
+Num Defects: 1
+Defect 1: X = 0.000904, Y = 0.001420, Radius = 0.001950, Depth = 0.001470, Thickness = 0.000011
+Set Name: shiftseed_76
+Num Defects: 0
+Set Name: shiftseed_77
+Num Defects: 1
+Defect 1: X = 0.002613, Y = 0.000787, Radius = 0.001994, Depth = 0.000840, Thickness = 0.000012
+Set Name: shiftseed_78
+Num Defects: 0
+Set Name: shiftseed_79
+Num Defects: 1
+Defect 1: X = 0.001440, Y = 0.002205, Radius = 0.001033, Depth = 0.000420, Thickness = 0.000014
+Set Name: shiftseed_80
+Num Defects: 1
+Defect 1: X = 0.002365, Y = 0.004548, Radius = 0.000524, Depth = 0.001050, Thickness = 0.000013
+Set Name: shiftseed_81
+Num Defects: 0
+Set Name: shiftseed_82
+Num Defects: 0
+Set Name: shiftseed_83
+Num Defects: 0
+Set Name: shiftseed_84
+Num Defects: 0
+Set Name: shiftseed_85
+Num Defects: 1
+Defect 1: X = 0.002766, Y = 0.002188, Radius = 0.000523, Depth = 0.000630, Thickness = 0.000017
+Set Name: shiftseed_86
+Num Defects: 0
+Set Name: shiftseed_87
+Num Defects: 1
+Defect 1: X = 0.001835, Y = 0.005380, Radius = 0.000624, Depth = 0.000630, Thickness = 0.000014
+Set Name: shiftseed_88
+Num Defects: 1
+Defect 1: X = 0.002440, Y = 0.003407, Radius = 0.000727, Depth = 0.001260, Thickness = 0.000013
+Set Name: shiftseed_89
+Num Defects: 0
+Set Name: shiftseed_90
+Num Defects: 0
+Set Name: shiftseed_91
+Num Defects: 0
+Set Name: shiftseed_92
+Num Defects: 1
+Defect 1: X = 0.004496, Y = 0.004779, Radius = 0.001932, Depth = 0.001260, Thickness = 0.000019
+Set Name: shiftseed_93
+Num Defects: 1
+Defect 1: X = 0.000841, Y = 0.003611, Radius = 0.001702, Depth = 0.001470, Thickness = 0.000011
+Set Name: shiftseed_94
+Num Defects: 1
+Defect 1: X = 0.005375, Y = 0.000641, Radius = 0.001549, Depth = 0.001050, Thickness = 0.000013
+Set Name: shiftseed_95
+Num Defects: 0
+Set Name: shiftseed_96
+Num Defects: 0
+Set Name: shiftseed_97
+Num Defects: 1
+Defect 1: X = 0.001061, Y = 0.002576, Radius = 0.001103, Depth = 0.000210, Thickness = 0.000018
+Set Name: shiftseed_98
+Num Defects: 1
+Defect 1: X = 0.003985, Y = 0.005300, Radius = 0.001378, Depth = 0.001050, Thickness = 0.000013
+Set Name: shiftseed_99
+Num Defects: 1
+Defect 1: X = 0.003122, Y = 0.000968, Radius = 0.002127, Depth = 0.000420, Thickness = 0.000016
+Set Name: shiftseed_100
+Num Defects: 1
+Defect 1: X = 0.001360, Y = 0.004581, Radius = 0.001048, Depth = 0.000840, Thickness = 0.000019
+Set Name: shiftseed_1
+Num Defects: 0
+Set Name: shiftseed_2
+Num Defects: 0
+Set Name: shiftseed_3
+Num Defects: 1
+Defect 1: X = 0.003294, Y = 0.001796, Radius = 0.001330, Depth = 0.000420, Thickness = 0.000017

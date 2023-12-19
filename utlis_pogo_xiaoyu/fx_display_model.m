@@ -38,7 +38,7 @@ if flag_plotelements
         for i = 2:length(unique_mat)
             elsets = find(model.matTypeRefs==unique_mat(i)).';
             centroids = zeros(size(elsets, 2), 3);  % Preallocate centroid array
-            for i = 1:10:size(elsets, 2) % skip by 10 to save time
+            for i = 1:20:size(elsets, 2) % skip by 10 to save time
                 element_nodes   = elements(elsets(:, i), 1:end); % the first colume includeds
                 nodes_pos       = nodes(element_nodes, 1:end);
                 centroids(i, :) = mean(nodes_pos, 1);
@@ -47,7 +47,6 @@ if flag_plotelements
             X = centroids(1:1:end, 1);
             Y = centroids(1:1:end, 2);
             Z = centroids(1:1:end, 3);
-
             % scatter3(X, Y, Z, 'filled', 'MarkerFaceAlpha', 0.5);
             plot3(X, Y, Z, '.', 'MarkerSize', 1);
             hold on;

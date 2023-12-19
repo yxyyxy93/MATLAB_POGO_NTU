@@ -7,7 +7,14 @@ centers = int32(reshape(centers, (nx+1)*(ny+1), 3)*1e6);
 
 %% read the base model
 
-model_base = load(model_path);
+% read the base model
+try
+    model_base = load(model_path);
+catch ME
+    fprintf('Error loading model: %s\n', ME.message);
+    return;  % Exit the function
+end
+	
 % model_base = load([currentFileFolder '/base_model_4d_onlyorient_8l.mat']);
 
 model1    = model_base.model1;
@@ -125,12 +132,7 @@ for step = 1:length(centers)
     node_index_receiver = find(   ...
         mDel.nodePos(3, :) == center(3)+dz*2 & ...
         dis_to_center <= (diameter/2).^2);
-
-    mDel.measSets{1, 1}.name       = 'main';
-    mDel.measSets{1, 1}.isDofGroup = 0;
-    mDel.measFreq  = 1;
-    mDel.measStart = 3.5e3;
-
+		
     mDel.measSets{1, 1}.measDof   = 3 * ones(length(node_index_receiver),1);
     mDel.measSets{1, 1}.measNodes = node_index_receiver;
 
