@@ -43,26 +43,32 @@ fs = 1/dt;
 
 Ascans_re(:, length(ascan)+1:end) = [];
 % Ascans_im(:, length(ascan)+1:end) = [];
-
-% in case of bug 
-% save Ascans_re;
-save(strcat(dir_path, "Ascans.mat"), "Ascans_re");
-
 % delete after saving
 for i = 1: length(sorted_file)
     delete(strcat(dir_path, sorted_file{i}));
 end
 
-%%
-% Ascans_inam = (Ascans_re.^2 + Ascans_im.^2).^1/2;
-% % in case there are extra lines
-% Ascans_inam = Ascans_inam(2:end-1, :);
+% in case of bug 
+% save Ascans_re;
+% save(strcat(dir_path, "Ascans.mat"), "Ascans_re");
+
+% Define the full path to the Ascans.mat file
+filePath = fullfile(dir_path, "Ascans.mat");
+% Check if the file exists
+if exist(filePath, 'file') == 2
+    % File exists, so load Ascans_re from the .mat file
+    load(filePath, 'Ascans_re');
+    disp('Ascans.mat file found and data loaded.');
+else
+    % File does not exist
+    disp('Ascans.mat file does not exist.');
+end
 
 % downsample
 Ascans_im_ds = Ascans_re(:, 1:int32(fs/2000e6):end);
 
 %% save with low occupation
-row = 21;
+row = 17;
 col = size(Ascans_im_ds, 1) / row;
 img_pre = reshape(Ascans_im_ds, [row, col, size(Ascans_im_ds, 2)]);
 
@@ -71,7 +77,7 @@ img_pre = reshape(Ascans_im_ds, [row, col, size(Ascans_im_ds, 2)]);
 dateString = datestr(datetime('now'), 'yyyymmdd');
 
 % Save size as the first line, then the flattened 3D array
-file_name = strcat(dir_path, '_10m', '_', dateString, '.csv');
+file_name = strcat(dir_path, '_20m', '_', dateString, '.csv');
 [x, y, z] = size(img_pre);
 
 % Open the file for writing
