@@ -20,7 +20,8 @@ classdef random_defects
                     x = 0.5 + 5 * rand(); % X-coordinate
                     y = 0.5 + 5 * rand(); % Y-coordinate
                     radius = 0.5 + 2 * rand(); % Radius
-                    depth = randi([1, 7]);  % Depth
+                    % depth = randi([1, 7]); % Depth
+					depth = 1 + 6 * rand(); % Depth
                     thickness = 10 + 10 * rand();  % Thickness
 
                     newCircle = [x, y, radius, depth, thickness];
