@@ -32,21 +32,51 @@ plot(tb_signal(:,1), tb_signal(:,2));
 % Grid definition
 nx = 1e2;
 ny = 1e2;
-nz = 1e2;
-
+nz = 0.2e2;
 dx = 2e-5; 
 dy = 2e-5;
 dz = 2e-5;
-
 model = genGrid3D(nx, ny, nz, dx, dy, dz);
-
 model.elTypes{1}.name       = 'C3D8R';
 model.elTypes{1}.paramsType = 0;
 model.nDims                 = 3; % default 3D 
 model.nDofPerNode           = 3;
 model.elTypeRefs            = ones(length(model.elNodes(1,:)),1);
-
 model.matTypeRefs = ones(length(model.elNodes(1,:)), 1); % water medium
+
+% ********** define a center out of function for acceleration
+% Preallocate array for faster execution
+elementCount = length(model.elNodes(1,:));
+center       = zeros(elementCount, 3);
+% Calculate all centers at once
+for i = 1: size(model.elNodes, 1)
+    center = center + model.nodePos(:, model.elNodes(i, :))';
+end
+center = center / size(model.elNodes, 1);
+ 
+centerX = 0;
+centerY = 0;
+centerZ = min(model.nodePos(3,:));  % Starting at the bottom
+hexCenter = [centerX, centerY, centerZ];
+hexDepth = nz * dz;
+hexSideLength = 5e-4; % Example side length, adjust based on your requirements
+material_name = 2;
+
+% Define your model's central point offset
+center_offset = [0, -1e-3];
+num_rows = 4; % The number of rows you want
+hex_centers = fx_calculate_honeycomb_centers(num_rows, hexSideLength, center_offset);
+
+for i = 1:size(hex_centers, 1)
+    hexCenter = hex_centers(i, :);
+    model = fx_assign_material_to_hex_cylinder(model, center, [hexCenter centerZ], hexDepth, hexSideLength, material_name);
+end
+
+% test functions
+clc;
+close all;
+flag_plotelements = 1;
+fx_display_model(model, flag_plotelements);
 
 %% Settings except for material
 model.prec    = 8;      % Precision
@@ -100,11 +130,10 @@ node_index_generator = find(   ...
 %     model.nodePos(3, :) == min(model.nodePos(3,:)) ...
 %     );
 
-% set the point generator to solid elastic material
-node_surface = find(model.nodePos(3, :) >= min(model.nodePos(3,:)) & ...
-    model.nodePos(3, :) < min(model.nodePos(3,:)) + dz * 50);
-
-model.matTypeRefs(node_surface) = 2;
+% % set the point generator to solid elastic material
+% node_surface = find(model.nodePos(3, :) >= min(model.nodePos(3,:)) & ...
+%     model.nodePos(3, :) < min(model.nodePos(3,:)) + dz * 50);
+% model.matTypeRefs(node_surface) = 2;
 
 model.shots{1, 1}.sigs{1, 1}.sigType    = 0; % 0 - force, 1 - displacement
 model.shots{1, 1}.sigs{1, 1}.isDofGroup = 0;
@@ -125,6 +154,7 @@ model.measStart = 1;
 model.fieldStoreIncs  = round((1:1:30) / 30 * model.nt)';
 node_num              = length(model.nodePos);
 model.fieldStoreNodes = round((1:1e6) / 1e6 * node_num)';
+
 
 
 %% Save pogo-inp file

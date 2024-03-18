@@ -6,8 +6,6 @@ centers = fx_defineloc(dx, dy, nx, ny);
 centers = int32(reshape(centers, (nx+1)*(ny+1), 3)*1e6);
 
 %% read the base model
-
-% read the base model
 try
     model_base = load(model_path);
 catch ME
@@ -16,7 +14,6 @@ catch ME
 end
 	
 % model_base = load([currentFileFolder '/base_model_4d_onlyorient_8l.mat']);
-
 model1    = model_base.model1;
 dz        = model_base.dz;
 
@@ -70,7 +67,6 @@ disp(min(center_list(:,2)) - min(Y));
 clc;
 
 % all unifieid to unit of um
-
 for step = 1:length(centers)
     %% skip the existing scanning 
     hist_path = strcat(currentFileFolder,'/woven_test_',num2str(step),'.pogo-hist');
@@ -259,11 +255,12 @@ matetype_del = model1.matTypeRefs(mask_res);
 % there is a ratio to transform the idx to 1, 2, 3, 4 ....
 X_del = (X_del - min(X_del))/10 + 1;
 Y_del = (Y_del - min(Y_del))/10 + 1;
-Z_del = (Z_del - min(Z_del))/10 + 1;
+Z_del = (Z_del - min(Z_del))/10 + 1; % !!!!!!!!!!!!!!! +1 or not there is a doute
 
-x = max(X_del); y = max(Y_del); z = max(Z_del);
+x = max(X_del); y = max(Y_del); z = max(Z_del) - 1; % Now I add the -1 term here
 % transfer the coordinate to 3d vector
 img_pre = zeros(x,y,z);
+
 for i = 1:x*y*z
     img_pre(X_del(i), Y_del(i), Z_del(i)) = matetype_del(i);
 end

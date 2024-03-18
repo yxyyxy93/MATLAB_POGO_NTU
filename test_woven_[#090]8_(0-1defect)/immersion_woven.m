@@ -28,7 +28,7 @@ min_data_node_pos = data_090.nodes(:, 2);
 diff_data_node_pos = max_data_node_pos - min_data_node_pos;
 
 % read file
-fields_090   = fieldnames(data_090.elsets);
+fields_090 = fieldnames(data_090.elsets);
 %%
 nx = round(diff_data_node_pos(1)/mesh_size   + 1); % adjust accoording to the data
 ny = round(diff_data_node_pos(2)/mesh_size   + 1);
@@ -74,7 +74,7 @@ numX    = diff_data_node_pos(1)/mesh_size;
 numY    = diff_data_node_pos(2)/mesh_size;
 numZ    = diff_data_node_pos(3)/mesh_size;
 
-for seed = 1:4
+for seed = 401:500
     rng(seed);
     % Generate a random integer number between 0 and 3
     num_defects = randi([0, 1], 1, 1);

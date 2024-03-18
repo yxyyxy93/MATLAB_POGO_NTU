@@ -12,8 +12,8 @@ copy_script_to_folder() {
 MASTER_SCRIPT_PATH="create_Cscan.sh"
 
 # Starting and ending seeds
-START_SEED=1
-END_SEED=101
+START_SEED=401
+END_SEED=500
 
 # Loop over the seed range
 for (( SEED=$START_SEED; SEED<=$END_SEED; SEED+=4 )); do

@@ -33,22 +33,26 @@ if flag_plotelements
             plot(X, Y, '.', 'MarkerSize', 1);
             hold on;
         end
-    % check 3D or higher
+        % check 3D or higher
     else
-        for i = 2:length(unique_mat)
+        for i = 1:length(unique_mat)
             elsets = find(model.matTypeRefs==unique_mat(i)).';
             centroids = zeros(size(elsets, 2), 3);  % Preallocate centroid array
-            for i = 1:20:size(elsets, 2) % skip by 10 to save time
-                element_nodes   = elements(elsets(:, i), 1:end); % the first colume includeds
+            for j = 1:1:size(elsets, 2) % skip by 10 to save time
+                element_nodes   = elements(elsets(:, j), 1:end); % the first colume includeds
                 nodes_pos       = nodes(element_nodes, 1:end);
-                centroids(i, :) = mean(nodes_pos, 1);
+                centroids(j, :) = mean(nodes_pos, 1);
             end
             % skip to save memory
             X = centroids(1:1:end, 1);
             Y = centroids(1:1:end, 2);
             Z = centroids(1:1:end, 3);
-            % scatter3(X, Y, Z, 'filled', 'MarkerFaceAlpha', 0.5);
-            plot3(X, Y, Z, '.', 'MarkerSize', 1);
+            % Check if it's the first unique material to set the transparency
+            if i == 1
+                scatter3(X, Y, Z, 5, 'filled', 'MarkerFaceAlpha', 0.1, 'MarkerEdgeAlpha', 0.1);
+            else
+                plot3(X, Y, Z, '.', 'MarkerSize', 5);
+            end
             hold on;
         end
         % plot generator
@@ -83,7 +87,7 @@ if flag_plotelements
         end
     end
 
-axis equal;  % make the axes scale equal
+    axis equal;  % make the axes scale equal
 else
     disp('do not display elements');
 end
