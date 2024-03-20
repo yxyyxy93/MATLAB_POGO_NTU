@@ -48,7 +48,7 @@ if flag_plotelements
             Y = centroids(1:1:end, 2);
             Z = centroids(1:1:end, 3);
             % Check if it's the first unique material to set the transparency
-            if i == 1
+            if i ==10
                 scatter3(X, Y, Z, 5, 'filled', 'MarkerFaceAlpha', 0.1, 'MarkerEdgeAlpha', 0.1);
             else
                 plot3(X, Y, Z, '.', 'MarkerSize', 5);

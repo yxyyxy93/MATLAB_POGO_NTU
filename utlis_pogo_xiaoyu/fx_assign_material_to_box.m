@@ -4,7 +4,7 @@ function model = fx_assign_material_to_box(model, X_box_start, Y_box_start, Z_bo
 % Define a new material
 % assign multiple boxes
 for j = 1:length(X_box_start)
-    dims = size(center);
+    dims = size(center, 2);
 
     % check if 2D
     if length(dims)==2

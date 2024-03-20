@@ -2,6 +2,25 @@ function fx_SaveStruct(currentFileFolder, model_path, nx, ny, dx, dy)
 % open the centers file
 % centers = dlmread('centers_array.txt');
 
+% Check current folder for specified files
+currentFiles = dir(currentFileFolder); % List all files in the folder
+csvFiles = sum(endsWith({currentFiles.name}, '.csv')); % Count .csv files
+pogoFiles = sum(endsWith({currentFiles.name}, '.pogo-block')); % Count .pogo-block files
+
+% Terminate function if the condition is not met
+% if ~(csvFiles == 1 && pogoFiles == 1)
+if ~(csvFiles == 1)
+    disp('Required files not found or too many files present. Exiting function.');
+    return;
+end
+
+% Find the .pogo-block file for potential deletion
+pogoFileNames = {currentFiles(endsWith({currentFiles.name}, '.pogo-block')).name};
+for i = 1:length(pogoFileNames)
+	delete(fullfile(currentFileFolder, pogoFileNames{i}));
+    disp(['Deleted .pogo-block file: ', pogoFileNames{i}]);
+end
+
 centers = fx_defineloc(dx, dy, nx, ny);
 centers = int32(reshape(centers, (nx+1)*(ny+1), 3)*1e6);
 
@@ -77,7 +96,11 @@ X_del = (X_del - min(X_del))/10 + 1;
 Y_del = (Y_del - min(Y_del))/10 + 1;
 Z_del = (Z_del - min(Z_del))/10 + 1; % !!!!!!!!!!!!!!! +1 or not there is a doute
 
-x = max(X_del); y = max(Y_del); z = max(Z_del) - 1; % Now I add the -1 term here
+x = max(X_del); y = max(Y_del);
+% z = max(Z_del) - 1; % Now I add the -1 term here
+% compensate here
+z = length(matetype_del)/x/y;
+
 % transfer the coordinate to 3d vector
 img_pre = zeros(x,y,z);
 

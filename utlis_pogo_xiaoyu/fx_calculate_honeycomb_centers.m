@@ -1,4 +1,4 @@
-function hex_centers = fx_calculate_honeycomb_centers(rows, side_length, center_offset)
+function hex_centers = fx_calculate_honeycomb_centers(rows, side_length, center_offset, centerZ)
     hex_centers = [];
     vertical_spacing = side_length * 1.1; % Spacing between centers of hexagons vertically
     
@@ -8,7 +8,7 @@ function hex_centers = fx_calculate_honeycomb_centers(rows, side_length, center_
         % Calculate the y-coordinate
         y = (row - 1) * vertical_spacing + center_offset(2);
         % Store the center coordinates
-        hex_centers(end + 1, :) = [x, y];
+        hex_centers(end + 1, :) = [x, y, centerZ];
     end
 end
 

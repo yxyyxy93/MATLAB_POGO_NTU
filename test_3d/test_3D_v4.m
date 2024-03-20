@@ -44,39 +44,25 @@ model.nDofPerNode           = 3;
 model.elTypeRefs            = ones(length(model.elNodes(1,:)),1);
 model.matTypeRefs = ones(length(model.elNodes(1,:)), 1); % water medium
 
-% ********** define a center out of function for acceleration
+%% ********** define a center out of function for acceleration
 % Preallocate array for faster execution
-elementCount = length(model.elNodes(1,:));
-center       = zeros(elementCount, 3);
-% Calculate all centers at once
-for i = 1: size(model.elNodes, 1)
-    center = center + model.nodePos(:, model.elNodes(i, :))';
-end
-center = center / size(model.elNodes, 1);
- 
-centerX = 0;
-centerY = 0;
-centerZ = min(model.nodePos(3,:));  % Starting at the bottom
-hexCenter = [centerX, centerY, centerZ];
-hexDepth = nz * dz;
-hexSideLength = 5e-4; % Example side length, adjust based on your requirements
-material_name = 2;
-
-% Define your model's central point offset
-center_offset = [0, -1e-3];
-num_rows = 4; % The number of rows you want
-hex_centers = fx_calculate_honeycomb_centers(num_rows, hexSideLength, center_offset);
-
-for i = 1:size(hex_centers, 1)
-    hexCenter = hex_centers(i, :);
-    model = fx_assign_material_to_hex_cylinder(model, center, [hexCenter centerZ], hexDepth, hexSideLength, material_name);
-end
-
-% test functions
-clc;
-close all;
-flag_plotelements = 1;
-fx_display_model(model, flag_plotelements);
+tic;
+% Get the node positions for all elements at once
+nodes_pos_all      = model.nodePos(:, model.elNodes(:));
+% Reshape the array to separate each element's nodes
+nodes_pos_reshaped = reshape(nodes_pos_all, size(model.nodePos, 1), size(model.elNodes, 1), []);
+% Compute the centroids by taking the mean across the second dimension
+centroids          = squeeze(mean(nodes_pos_reshaped, 2))';
+% centroids          = squeeze(nodes_pos_reshaped(:,1,:))';
+X = int32(centroids(:, 1)*1e6);
+Y = int32(centroids(:, 2)*1e6);
+Z = int32(centroids(:, 3)*1e6);
+clear nodes_pos_all;
+clear nodes_pos_reshapes;
+% X_unique = unique(X);
+% X_len = max(X) - min(X);
+% Y_len = max(Y) - min(Y);
+toc;
 
 %% Settings except for material
 model.prec    = 8;      % Precision
@@ -92,7 +78,6 @@ cWater = 1500; rhoWater = 1000; visc = 0;
 % 
 model.matTypes{1,1}.paramsType  = 5; % water media
 model.matTypes{1,1}.paramValues = [cWater, rhoWater, visc];
-
 % ********** uncomment below to change it to solid elastic material type
 % virtual water
 model.matTypes{2,1}.paramsType  = 0;
@@ -153,13 +138,60 @@ model.measFreq  = 1;
 model.measStart = 1; 
 model.fieldStoreIncs  = round((1:1:30) / 30 * model.nt)';
 node_num              = length(model.nodePos);
-model.fieldStoreNodes = round((1:1e6) / 1e6 * node_num)';
+model.fieldStoreNodes = round((1:1e3) / 1e3 * node_num)';
+
+%%
+d_plate = 2 * dz;
+
+centerX = 0;
+centerY = 0;
+centerZ = min(model.nodePos(3,:));  % Starting at the bottom
+hexCenter = [centerX, centerY, centerZ];
+hexDepth = nz * dz - d_plate;
+hexSideLength = 5e-4; % Example side length, adjust based on your requirements
+material_name = 2;
+
+% assign materials
+xyz_min = min(centroids, [], 1);
+xyz_max = max(centroids, [], 1);
+x_min = xyz_min(1);
+y_min = xyz_min(2);
+z_min = xyz_min(3);
+x_max = xyz_max(1);
+y_max = xyz_max(2);
+z_max = xyz_max(3);
+
+figure, plot(model.matTypeRefs);
+
+model = fx_assign_material_to_box(model, x_min, y_min, z_max-d_plate, ...
+    x_max, y_max, z_max, material_name, centroids);
+figure, plot(model.matTypeRefs);
+
+% Define your model's central point offset
+center_offset = [0, -1e-3];
+num_rows = 4; % The number of rows you want
+hex_centers = fx_calculate_honeycomb_centers(num_rows, hexSideLength, center_offset, centerZ);
+
+inHex_ele = fx_find_elements_in_hexcylinder(int32(hex_centers*1e6), ...
+    int32(hexDepth*1e6), hexSideLength*1e6, X, Y, Z);
+
+[ mDel ] = deleteEls(model, inHex_ele);
 
 
+% for i = 1:size(hex_centers, 1)
+%     hexCenter = hex_centers(i, :);
+%     model = fx_assign_material_to_hex_cylinder(model, center, [hexCenter centerZ], hexDepth, hexSideLength, material_name);
+% end
 
-%% Save pogo-inp file
-savePogoInp(sprintf([PogoFilename,'.pogo-inp']), model, 1, 15);  % new version POGO
-
-disp(".pogo-inp saved");
-
+% test functions
+clc;
 close all;
+flag_plotelements = 1;
+fx_display_model(mDel, flag_plotelements);
+
+% %% Save pogo-inp file
+% savePogoInp(sprintf([PogoFilename,'.pogo-inp']), model, 1, 15);  % new version POGO
+% 
+% disp(".pogo-inp saved");
+% 
+% close all;

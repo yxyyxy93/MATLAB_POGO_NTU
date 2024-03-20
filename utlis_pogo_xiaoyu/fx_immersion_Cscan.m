@@ -83,7 +83,6 @@ for step = 1:length(centers)
         disp([num2str(step) ": Pogo-inp" "already exist"])
         continue;
     end
-
     center = center_ori + centers(step, :);
     disp(step);
     format long e;
@@ -95,22 +94,18 @@ for step = 1:length(centers)
     [ mDel ] = deleteEls(model1, elsDelete);
     disp(['model cut points:' num2str(length(elsDelete))]);
     toc;
-
     % update center
     center = round([    ...
         mean(mDel.nodePos(1, :)) ...
         mean(mDel.nodePos(2, :)) ...
         min(mDel.nodePos(3, :))], 5);
-
     % Plane wave
     dis_to_center = (mDel.nodePos(1, :) - center(1)).^2 + ...
         (mDel.nodePos(2, :) - center(2)).^2 + ...
         (mDel.nodePos(3, :) - center(3)).^2;
-
     node_index_generator = find(   ...
         mDel.nodePos(3, :) == center(3) & ...
         dis_to_center <= (diameter/2).^2);
-
     for i = 1: length(node_index_generator)
         mDel.shots{1, 1}.sigs{i, 1}.sigType    = 1; % 0 - force, 1 - displacement
         mDel.shots{1, 1}.sigs{i, 1}.isDofGroup = 0;
@@ -124,18 +119,14 @@ for step = 1:length(centers)
     dis_to_center = (mDel.nodePos(1, :) - center(1)).^2 + ...
         (mDel.nodePos(2, :) - center(2)).^2 + ...
         (mDel.nodePos(3, :) - center(3)-dz*2).^2;
-
     node_index_receiver = find(   ...
         mDel.nodePos(3, :) == center(3)+dz*2 & ...
         dis_to_center <= (diameter/2).^2);
-		
     mDel.measSets{1, 1}.measDof   = 3 * ones(length(node_index_receiver),1);
     mDel.measSets{1, 1}.measNodes = node_index_receiver;
-
     % check point 2
     disp(length(node_index_generator));
     disp(length(node_index_receiver));
-
     node_num             = size(mDel.nodePos, 2);
     mDel.fieldStoreIncs  = round((1:2:60)/60 * mDel.nt)';
     mDel.fieldStoreNodes = round((1:2e6)/2e6 * node_num)';
@@ -150,7 +141,6 @@ for step = 1:length(centers)
     % x_max = xyz_max(1);
     % y_max = xyz_max(2);
     z_max = xyz_max(3);
-
     % % remove anisotropic boundary
     % sides
     nAbsVals = 60;
@@ -159,11 +149,9 @@ for step = 1:length(centers)
     ylims    = [ ];
     zLims    = [-102 -100 z_max-abs_size z_max];
     mDel     = addAbsBound(mDel, xLims, ylims, zLims, nAbsVals, [], [], []);
-
     % % plot the elsets with the model basic dataset
     % flag_plotelem = 1;
     % fx_display_model(mDel, flag_plotelem);
-
     %% Boundary
     xyz_max = max(mDel.nodePos, [], 2);
     x_max   = xyz_max(1);
@@ -173,7 +161,6 @@ for step = 1:length(centers)
     x_min   = xyz_min(1);
     y_min   = xyz_min(2);
     z_min   = xyz_min(3);
-
     X_lim_up  = x_min;
     X_lim_low = x_min;
     Y_lim_up  = y_max;
@@ -187,7 +174,6 @@ for step = 1:length(centers)
         (mDel.nodePos(2,:)<=Y_lim_up)&  ...
         (mDel.nodePos(3,:)>=Z_lim_low)& ...
         (mDel.nodePos(3,:)<=Z_lim_up));
-
     X_lim_up  = x_max;
     X_lim_low = x_max;
     node_index_generator_yzx = find(     ...
@@ -197,7 +183,6 @@ for step = 1:length(centers)
         (mDel.nodePos(2,:)<=Y_lim_up)&  ...
         (mDel.nodePos(3,:)>=Z_lim_low)& ...
         (mDel.nodePos(3,:)<=Z_lim_up));
-
     X_lim_up  = x_max;
     X_lim_low = x_min;
     Y_lim_up  = y_min;
@@ -211,7 +196,6 @@ for step = 1:length(centers)
         (mDel.nodePos(2,:)<=Y_lim_up)&  ...
         (mDel.nodePos(3,:)>=Z_lim_low)& ...
         (mDel.nodePos(3,:)<=Z_lim_up));
-
     Y_lim_up  = y_max;
     Y_lim_low = y_max;
     node_index_generator_xzy = find(     ...
@@ -221,7 +205,6 @@ for step = 1:length(centers)
         (mDel.nodePos(2,:)<=Y_lim_up)&  ...
         (mDel.nodePos(3,:)>=Z_lim_low)& ...
         (mDel.nodePos(3,:)<=Z_lim_up));
-
     mDel.fixNodes = [            ...
         node_index_generator_yz0  ...
         node_index_generator_yzx  ...
@@ -232,11 +215,9 @@ for step = 1:length(centers)
         ones(length(node_index_generator_yzx),1)*1; ...
         ones(length(node_index_generator_xz0),1)*2; ...
         ones(length(node_index_generator_xzy),1)*2];
-
     % Save pogo-inp file
     PogoFilename = strcat(currentFileFolder,'/woven_test_090',num2str(step));
     savePogoInp(sprintf(strcat(PogoFilename,'.pogo-inp')), mDel, 1, 15);  % new version POGO
-
     disp(".pogo-inp saved");
 end
 
