@@ -37,7 +37,7 @@ dx = 2e-5;
 dy = 2e-5;
 dz = 2e-5;
 model = genGrid3D(nx, ny, nz, dx, dy, dz);
-model.elTypes{1}.name       = 'C3D8R';
+model.elTypes{1}.name       = 'C3D4R';
 model.elTypes{1}.paramsType = 0;
 model.nDims                 = 3; % default 3D 
 model.nDofPerNode           = 3;
@@ -189,9 +189,10 @@ close all;
 flag_plotelements = 1;
 fx_display_model(mDel, flag_plotelements);
 
-% %% Save pogo-inp file
-% savePogoInp(sprintf([PogoFilename,'.pogo-inp']), model, 1, 15);  % new version POGO
-% 
-% disp(".pogo-inp saved");
-% 
-% close all;
+%% Save pogo-inp file
+savePogoInp(sprintf([PogoFilename,'.pogo-inp']), model, 1, 15);  % new version POGO
+
+disp(".pogo-inp saved");
+
+close all;
+
