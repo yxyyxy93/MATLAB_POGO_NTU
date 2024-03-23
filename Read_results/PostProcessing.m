@@ -48,7 +48,6 @@ if exist(fullfile(file_path, 'focusing_delays.txt'), 'file')
     if length(delays) ~= size(ascans, 2)
         error('delays not correct')
     end
-
     ascans_defoc = ascans;
     for i = 1:length(delays)
         ascans_defoc(:, i) = circshift(ascans(:, i), -round(delays(i)));
