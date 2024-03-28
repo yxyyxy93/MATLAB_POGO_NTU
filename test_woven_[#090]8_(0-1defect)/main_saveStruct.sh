@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Starting and ending seeds
-START_SEED=401
-END_SEED=500
+START_SEED=483
+END_SEED=485
 
 # Loop over the seed range
 for (( SEED=$START_SEED; SEED<=$END_SEED; SEED+=4 )); do

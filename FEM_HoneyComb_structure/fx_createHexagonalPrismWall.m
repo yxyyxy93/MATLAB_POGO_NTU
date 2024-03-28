@@ -1,17 +1,21 @@
-function gm = fx_createHexagonalPrismWall(zBottomOuter, zTopOuter, cx, cy, r, scaleFactor, nPoints_inner, nPoints_outer)
-    tOuter = (pi/6:pi/3:2*pi)' + pi/6;
+function gm = fx_createHexagonalPrismWall(zBottomOuter, zTopOuter, cx, cy, rMedian, wallThickness, nPoints_inner, nPoints_outer)
+    % Calculate outer and inner radius
+    rOuter = rMedian + wallThickness / 2;
+    rInner = rMedian - wallThickness / 2;
+
+    t = (pi/6:pi/3:2*pi)' + pi/6;
 
     % Outer prism vertices
-    xOuter = r*cos(tOuter) + cx;
-    yOuter = r*sin(tOuter) + cy;
+    xOuter = rOuter*cos(t) + cx;
+    yOuter = rOuter*sin(t) + cy;
 
     % Inner prism vertices (scaled)
-    xInner = scaleFactor * r*cos(tOuter) + cx;
-    yInner = scaleFactor * r*sin(tOuter) + cy;
+    xInner = rInner*cos(t) + cx;
+    yInner = rInner*sin(t) + cy;
 
     % Median vertices
-    xMedian = (0.5+scaleFactor/2) * r*cos(tOuter) + cx;
-    yMedian = (0.5+scaleFactor/2) * r*sin(tOuter) + cy;
+    xMedian = rMedian * cos(t) + cx;
+    yMedian = rMedian * sin(t) + cy;
 
     % Interpolate outer and inner prisms
     interpBottomOuter = interpolateHexagon(xOuter, yOuter, zBottomOuter, nPoints_outer);

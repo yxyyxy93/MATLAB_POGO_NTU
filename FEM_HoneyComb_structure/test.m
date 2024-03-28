@@ -5,24 +5,60 @@ clc;
 
 % Define parameters for the hexagonal prism wall
 zBottomOuter = 0;
-zTopOuter = 1e-3;
+zTopOuter = 1e-2;
 cx = 0.5e-3; % Center X coordinate
 cy = 1e-3; % Center Y coordinate
-r = 2e-3; % Radius of the hexagon
-scaleFactor = 0.6; % Scale factor for the inner prism
-nPoints_inner = 2; % Number of points for interpolation on the inner prism
-nPoints_outer = 4; % Number of points for interpolation on the outer prism
+r = 4e-3; % Radius of the hexagon
+wall_thickness = 1e-3;
+nPoints_inner = 6; % Number of points for interpolation on the inner prism
+nPoints_outer = 8; % Number of points for interpolation on the outer prism
 
-gm = fx_createHexagonalPrismWall(zBottomOuter, zTopOuter, cx, cy, r, scaleFactor, nPoints_inner, nPoints_outer);
-
+% ************* create centers array ******************
+% Calculations for adjacent hexagons
+dx = 1.5 * r; % Horizontal distance between centers
+dy = sqrt(3) * r / 2; % Vertical distance for the shift
+% Calculations for adjacent hexagons
+% Initialize the centers array for a 4x4 structure
+centers = zeros(2*2, 2); % Updated for a 4x4 grid
+% Populate the centers array
+index = 1;
+for row = 0:1 % rows
+    for col = 0:1 % columns
+        cx_temp = cx + col * dx;
+        cy_temp = cy - 2*row*dy - mod(col,2)*dy; % Adjust vertical position
+        centers(index, :) = [cx_temp, cy_temp];
+        index = index + 1;
+    end
+end
+% Plot each hexagon
+figure;
+hold on;
+axis equal;
+for i = 1:size(centers, 1)
+    fx_plotHexagon(centers(i, 1), centers(i, 2), r);
+end
+title('Honeycomb Structure');
+xlabel('X coordinate (m)');
+ylabel('Y coordinate (m)');
+grid on;
+% ********************************************************
+gm1 = fx_createHexagonalPrismWall(zBottomOuter, zTopOuter, cx, cy, r, wall_thickness, nPoints_inner, nPoints_outer);
 % Generate a mesh for the geometry
-gm = generateMesh(gm, "GeometricOrder", "linear", Hmax=0.5e-3, Hmin=0.5e-3);
+gm1 = generateMesh(gm1, "GeometricOrder", "linear");
+% Plot the geometry with the face labels
+figure;
+pdegplot(gm1, 'FaceLabels', "on", 'FaceAlpha', 0.5);
+figure;
+pdemesh(gm1);
 
+gm = fx_createHoneycombStructure(zBottomOuter, zTopOuter, centers, ...
+    r, wall_thickness, nPoints_inner, nPoints_outer);
 % Plot the geometry with the face labels
 figure;
 pdegplot(gm, 'FaceLabels', "on", 'FaceAlpha', 0.5);
-
 % Plot the mesh
+% Generate the mesh with adjusted element sizes
+gm = generateMesh(gm, 'GeometricOrder', 'linear', 'Hmax', 1e-3, 'Hmin', 1e-7);
 figure;
 pdemesh(gm);
 

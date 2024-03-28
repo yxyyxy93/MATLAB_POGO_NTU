@@ -104,7 +104,7 @@ z = length(matetype_del)/x/y;
 % transfer the coordinate to 3d vector
 img_pre = zeros(x,y,z);
 
-for i = 1:x*y*z
+for i = 1:length(matetype_del)
     img_pre(X_del(i), Y_del(i), Z_del(i)) = matetype_del(i);
 end
 % reduce the mesh size
