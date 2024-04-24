@@ -1,4 +1,4 @@
-function gm = fx_createHoneycombStructure(zBottomOuter, zTopOuter, centers, rMedian, wallThickness, nPoints_inner, nPoints_outer)
+function [gm, elements, nodes] = fx_createHoneycombStructure(zBottomOuter, zTopOuter, centers, rMedian, wallThickness, nPoints_inner, nPoints_outer)
     % Initialize array to hold all points
     allPrismPoints = [];
 
@@ -23,6 +23,8 @@ function gm = fx_createHoneycombStructure(zBottomOuter, zTopOuter, centers, rMed
     interpBottomMedian = interpolateHexagon(xMedian, yMedian, zBottomOuter, (nPoints_inner + nPoints_outer) / 2);
     interpTopMedian = interpolateHexagon(xMedian, yMedian, zTopOuter, (nPoints_inner + nPoints_outer) / 2);
 
+    tolerance = zTopOuter/1e2; % Adjust this based on your requirements
+
     % Loop through each center to generate hexagonal prisms
     for idx = 1:size(centers, 1)
         % Extract center coordinates for the current hexagon
@@ -34,9 +36,15 @@ function gm = fx_createHoneycombStructure(zBottomOuter, zTopOuter, centers, rMed
         fullPrismPoints(:, 2) = fullPrismPoints(:, 2) + cy;
         allPrismPoints = [allPrismPoints; fullPrismPoints]; % Accumulate all points
     end
-    
+
+    % Round the points to the nearest tolerance to group close points together
+    roundedPoints = round(allPrismPoints / tolerance) * tolerance;
+    [uniquePoints, ia] = unique(roundedPoints, 'rows', 'stable');
+    % Use the index vector ia to select the unique points from the original allPrismPoints
+    uniqueAllPrismPoints = allPrismPoints(ia, :);
+
     % Create alphaShape and generate mesh for the entire structure
-    shp = alphaShape(allPrismPoints, 'HoleThreshold', max(allPrismPoints(:))*2);
+    shp = alphaShape(uniqueAllPrismPoints, 'HoleThreshold', max(uniqueAllPrismPoints(:))*2);
     [elements, nodes] = boundaryFacets(shp);
     gm = fegeometry(nodes, elements);
 end
